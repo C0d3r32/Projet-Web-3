@@ -1,0 +1,1 @@
+<footer>CinéList</footer>
