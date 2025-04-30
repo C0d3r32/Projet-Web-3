@@ -1,6 +1,7 @@
 <?php
+namespace entities;
 Class Tag {
-    private static string $name;
+    private string $name;
 
     public function __construct($name) {
         $this->name = $name;

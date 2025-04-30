@@ -1,5 +1,5 @@
 <?php
-
+namespace entities;
 class Saison {
     private string $titre;
     private int $numero;

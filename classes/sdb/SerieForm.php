@@ -36,7 +36,6 @@ class SerieForm
         <script>
             document.addEventListener('DOMContentLoaded', function (){
 
-                // prévisualisation de l'image
                 const preview = document.getElementById("preview-image") ;
 
                 const reader = new FileReader() ;

@@ -1,5 +1,5 @@
 <?php
-
+namespace entities;
 class Personne {
     private string $nom;
     private string $photo;

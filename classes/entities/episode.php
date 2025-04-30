@@ -1,5 +1,5 @@
 <?php
-
+namespace entities;
 class Episode {
     private string $titre;
     /** @var Personne[] */

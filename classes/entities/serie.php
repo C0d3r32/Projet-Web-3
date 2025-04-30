@@ -1,4 +1,5 @@
 <?php
+namespace entities;
 class Serie {
     private string $titre;
     /** @var Tag[] */
@@ -40,5 +41,24 @@ class Serie {
      */
     public function getSaisons(): array {
         return $this->saisons;
+    }
+
+    public function __TabToString(): array {
+        $toReturn = [
+            "titre"   => $this->titre,
+            "tags"    => [],
+            "saisons" => ""
+        ];
+
+        foreach ($this->tags as $tag) {
+            array_push($toReturn["tags"], $tag->getName()); 
+        }
+        $s = 0;
+        foreach ($this->saisons as $saison) {
+            $s += 1;  
+        }
+        $toReturn["saisons"] = (string)$s;
+
+        return $toReturn;
     }
 }

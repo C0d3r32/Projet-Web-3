@@ -14,7 +14,6 @@ Autoloader::register();
 
 <div id="main-content">
     <b>ADMIN PANEL
-
 </div>
 
 <?php include "modules/pages/elements/footer.php" ?>
