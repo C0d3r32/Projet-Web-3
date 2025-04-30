@@ -1,7 +1,5 @@
-
-
 const image = new Image();
-image.src = "images.jpeg";
+image.src = "../../images/images.jpeg";
 image.onload = function() {
 document.body.appendChild(image);
 };

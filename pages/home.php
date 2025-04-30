@@ -48,7 +48,6 @@ foreach ($saisons2 as $saison){
 
 $data = [$serie1->__TabToString(), $serie2->__TabToString()];
 $jsonData = json_encode($data);
-print($jsonData);
 ob_start();
 ?>
 
@@ -59,7 +58,7 @@ ob_start();
 <script>
     const seriesData = <?= $jsonData ;?>
 </script>
-<script src="../js/pp.js"></script>
+<script src="../js/showSeries.js"></script>
 
 <?php $content = ob_get_clean();
 Template::render($content);
