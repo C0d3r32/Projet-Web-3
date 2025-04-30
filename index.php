@@ -16,12 +16,11 @@ try{
 }
 
 catch (\Exception $ex){ ?>
-    <div style="color: red">
+     <div style="color: red">
         <b>!!! ERREUR DE CONNEXION !!!</b><br>
-        Code : <?= $ex->getCode() ?><br>
-        Message : <?= $ex->getMessage() ?>
-    </div><?php
-    //die("-> Exécution stoppée <-") ;
+        Code : <? echo $ex->getCode() ?><br>
+        Message : <? echo $ex->getMessage() ?>
+    </div> <?php
 }
 
 
@@ -65,8 +64,6 @@ if (isset($_POST['username']) and isset($_POST['password'])){
         elseif (!$response['granted']) :
             echo "<div class='magic-card' id='error'>" .$response['error']."</div>" ;
             $logger->generateLoginForm("");
-        else :
-            include "modules/pages/elements/admin.php" ;
         endif;
     ?>
 
