@@ -10,7 +10,7 @@ class Autoloader
 
     static function autoload($class_name){
         $class_name = str_replace('\\', DIRECTORY_SEPARATOR, $class_name) ;
-        require $class_name . '.php' ;
+        require __DIR__ . "/" . $class_name . '.php' ;
     }
 
 }
