@@ -54,7 +54,6 @@ $jsonData = json_encode($data);
 
 
 echo var_dump($sdb->getSeries());
-$sdb->createSerie("Le truc", 3);
 ob_start();
 ?>
 
