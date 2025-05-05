@@ -29,20 +29,13 @@ class SerieDB extends PdoWrapper {
             null,
             null);
     }
-    public function createSerie($name, $id, $saisons=null, $tags=null){
-        $serie = new Serie($name);
-
-        if ($tags){
-            foreach ($tags as $tag){
-                $serie->addTag($tag);
-            }
-        }
-        if ($saisons){
-            foreach ($saisons as $saison){
-                $serie->addSaison($saison);
-            }
-        }
-        return $serie;
+    public function createSerie($titre, $id, $saisons=null, $tags=null){
+        $query = 'INSERT INTO serie(id,titre) VALUES (:id,:titre)';
+        $param = [
+            'id' => $id,
+            'titre'=> $titre
+        ];
+        return $this->exec($query,$param,null);
     }
 
     public function getSerieTags(Serie $serie) {
@@ -82,7 +75,7 @@ class SerieDB extends PdoWrapper {
 
     public function getEpisodeRealisateurs(Episode $episode) {
         $realisateursData = $this->exec("SELECT * FROM episode_realisateur WHERE id_episode = ?", [$episode->getTitre()]);
-        $allRealisateurs = $this->getAllRealisateurs(); // Assuming we have a method that fetches all directors
+        $allRealisateurs = $this->getAllRealisateurs();
     
         foreach ($realisateursData as $relation) {
             foreach ($allRealisateurs as $realisateur) {
@@ -95,9 +88,9 @@ class SerieDB extends PdoWrapper {
     
     
     public function getAllSaisonActeurs(){
-        return $this->exec("SELECT * FROM TABLE saison_acteur",null,null);
+        return $this->exec("SELECT * FROM saison_acteur",null,null);
     }
-    public function createSaison($id, $numero, $affiche){
+    public function getSaison($id, $numero, $affiche){
         $saison = new Saison($id, $numero, $affiche);
         $AllSaisonActeurs = $this->getAllSaisonActeurs();
         $acteurSaison = [];
@@ -120,12 +113,12 @@ class SerieDB extends PdoWrapper {
         $saisons = $this->getSaisons();
         foreach ($saisons as $saison){
             if ($saison->id_serie == $serie->getId()) {
-                $serie->addSaison($this->createSaison($saison->id, $saison->numero, $saison->affiche)); 
+                $serie->addSaison($this->getSaison($saison->id, $saison->numero, $saison->affiche)); 
             }
         }
     }
 
-    public function createAllSeries(){
+    public function getSeries(){
         $toReturn = [];
         $series = $this->getAllSeries();
         foreach ($series as $serie){
@@ -145,7 +138,7 @@ class SerieDB extends PdoWrapper {
 
     public function getSaisons() {
         return $this->exec(
-            "SELECT * FROM TABLE saison",
+            "SELECT * FROM saison",
             null,
             null,
         );
@@ -168,7 +161,6 @@ class SerieDB extends PdoWrapper {
     }
 
     public function deleteTag($tag){
-
         unset($tag);
     }
 
