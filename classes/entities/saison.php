@@ -6,7 +6,7 @@ class Saison {
     private string $affiche;
     /** @var Episode[] */
     private array $episodes;
-    /** @var Personne[] */
+    /** @var Acteur[] */
     private array $casting;
 
     public function __construct(string $titre, int $numero, string $affiche) {
@@ -52,12 +52,12 @@ class Saison {
         return $this->episodes;
     }
 
-    public function addActeur(Personne $acteur): void {
+    public function addActeur(Acteur $acteur): void {
         $this->casting[] = $acteur;
     }
 
     /**
-     * @return Personne[]
+     * @return Acteur[]
      */
     public function getCasting(): array {
         return $this->casting;

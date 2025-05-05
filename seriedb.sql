@@ -61,7 +61,7 @@ CREATE TABLE `episode` (
 -- Déchargement des données de la table `episode`
 --
 
-INSERT INTO `episode` (`id`, `numero`, `titre`, `synopsis`, `duree`, `id_saison`) VALUES
+INSERT INTO `episode` (`id`, `titre`, `synopsis`, `duree`) VALUES
 (11, 1, 'Winter Is Coming', 'Lord Eddard Stark is concerned by news of a deserter from the Night\"s Watch; King Robert I Baratheon and the Lannisters arrive at Winterfell; the exiled Prince Viserys Targaryen forges a powerful new alliance. North of the Seven Kingdoms of Westeros, Night\"s Watch soldiers are attacked by supernatural White Walkers.', 62, 16),
 (12, 1, 'The North Remembers', 'The North Remembers\" is the first episode of the second season of Game of Thrones. It is the eleventh episode of the series overall.', 53, 17),
 (13, 1, 'Valar Dohaeris', 'Valar Dohaeris\" is the third season premiere episode of the HBO fantasy television series Game of Thrones. Written by executive producers David Benioff and ...', 55, 18),

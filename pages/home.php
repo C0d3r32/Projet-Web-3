@@ -1,4 +1,6 @@
 <?php
+
+use sdb\SerieDB;
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -8,6 +10,8 @@ session_start();
 require_once "../config.php";
 require ".." . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'autoLoader.php';
 Autoloader::register(); 
+
+$test = new SerieDB();
 
 //$sdb = new \sdb\SerieDB();
 //$data = $sdb->getAllSeries(); // Or, if not ready:
@@ -48,6 +52,8 @@ foreach ($saisons2 as $saison){
 
 $data = [$serie1->__TabToString(), $serie2->__TabToString()];
 $jsonData = json_encode($data);
+
+echo var_dump($test->createAllActeur());
 ob_start();
 ?>
 

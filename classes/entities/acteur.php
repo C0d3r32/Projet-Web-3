@@ -1,6 +1,6 @@
 <?php
 namespace entities;
-class Personne {
+class Acteur {
     private string $nom;
     private string $photo;
 

@@ -2,7 +2,7 @@
 namespace entities;
 class Episode {
     private string $titre;
-    /** @var Personne[] */
+    /** @var Realisateur[] */
     private array $realisateurs;
     private string $synopsis;
     private int $duree;
@@ -22,12 +22,12 @@ class Episode {
         $this->titre = $titre;
     }
 
-    public function addRealisateur(Personne $realisateur): void {
+    public function addRealisateur(Realisateur $realisateur): void {
         $this->realisateurs[] = $realisateur;
     }
 
     /**
-     * @return Personne[]
+     * @return Realisateur[]
      */
     public function getRealisateurs(): array {
         return $this->realisateurs;

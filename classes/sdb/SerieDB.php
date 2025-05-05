@@ -1,6 +1,11 @@
 <?php
 namespace sdb ;
 
+use entities\Acteur;
+use entities\Tag;
+use entities\Serie;
+use entities\Saison;
+use entities\Episode;
 use \pdo_wrapper\pdoWrapper ;
 
 include __DIR__ . "../../../DB_CREDENTIALS.php";
@@ -19,34 +24,40 @@ class SerieDB extends PdoWrapper {
 
     public function getAllSeries(){
         return $this->exec(
-            "SELECT * FROM series ORDER BY name",
+            "SELECT * FROM serie ORDER BY name",
             null,
-            'sdb\SerieRenderer');
+            null);
+    }
+    public function createSerie($name, $saisons=null, $tags=null){
+        $serie = new Serie($name);
+
+        if ($tags){
+            foreach ($tags as $tag){
+                $serie->addTag($tag);
+            }
+        }
+        if ($saisons){
+
+        }
+    }
+    
+    public function createTag($name) : Tag {
+        return new Tag($name);
     }
 
-    public function createSerie($name, $description=null, $imgFile=null){
+    public function getAllActeur(){
+        return $this->exec(
+            "SELECT * FROM acteur",
+            null,
+            null);
+    }
 
-        $name = htmlspecialchars($name) ;
-        $description = htmlspecialchars($description) ;
-
-        $imgName = null ;
-        if($imgFile != null){
-            $tmpName = $imgFile['tmp_name'] ;
-            $imgName = $imgFile['name'] ;
-            $imgName = urlencode(htmlspecialchars($imgName)) ;
-
-            $dirname = $GLOBALS['PHP_DIR'].self::UPLOAD_DIR ;
-            if(!is_dir($dirname)) mkdir($dirname) ;
-            $uploaded = move_uploaded_file($tmpName, $dirname.$imgName) ;
-            if (!$uploaded) die("FILE NOT UPLOADED") ;
-        }else echo "NO IMAGE!" ;
-
-        $query = 'INSERT INTO series(name, description, image) VALUES (:name, :description, :image)';
-        $params=[
-            'name' => htmlspecialchars($name),
-            'description' => htmlspecialchars($description),
-            'image' => $imgName
-        ] ;
-        return $this->exec($query, $params) ;
+    public function createAllActeur() : array {
+        $toReturn = [];
+        $actors = $this->getAllActeur();
+        foreach($actors as $actor) {
+            $toReturn[$actor->nom] = new Acteur($actor->nom, $actor->photo);
+        }
+        return $toReturn;
     }
 }

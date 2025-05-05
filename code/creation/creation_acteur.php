@@ -1,5 +1,8 @@
 <?php
+
+use entities\Acteur;
 require '../../../db_connection.php';
+require '../../classes/entities/personne.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nom = $_POST['nom'];
@@ -10,6 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $stmt = $pdo->prepare("INSERT INTO acteur (nom, photo) VALUES (:nom, :photo)");
         $stmt->execute(['nom' => $nom, 'photo' => $photo]);
+        $personne = new Acteur($nom,$photo);
+        echo var_dump($personne);
         echo "Acteur ajouté.";
     }
 }

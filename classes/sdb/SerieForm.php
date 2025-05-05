@@ -78,4 +78,8 @@ class SerieForm
         header('location: series_list.php');
         exit() ;
     }
+
+    public function deleteSerie($serie): void{
+        
+    }
 }
