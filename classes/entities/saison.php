@@ -1,7 +1,7 @@
 <?php
 namespace entities;
 class Saison {
-    private string $titre;
+    private int $id;
     private int $numero;
     private string $affiche;
     /** @var Episode[] */
@@ -9,20 +9,20 @@ class Saison {
     /** @var Acteur[] */
     private array $casting;
 
-    public function __construct(string $titre, int $numero, string $affiche) {
-        $this->titre = $titre;
+    public function __construct(int $id, int $numero, string $affiche) {
+        $this->id= $id;
         $this->numero = $numero;
         $this->affiche = $affiche;
         $this->episodes = [];
         $this->casting = [];
     }
 
-    public function getTitre(): string {
-        return $this->titre;
+    public function getId(): int {
+        return $this->id;
     }
 
-    public function setTitre(string $titre): void {
-        $this->titre = $titre;
+    public function setId(int $id): void {
+        $this->id = $id;
     }
 
     public function getNumero(): int {

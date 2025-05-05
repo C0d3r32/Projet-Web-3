@@ -2,6 +2,7 @@
 namespace sdb ;
 
 use entities\Acteur;
+use entities\Realisateur;
 use entities\Tag;
 use entities\Serie;
 use entities\Saison;
@@ -60,12 +61,68 @@ class SerieDB extends PdoWrapper {
                 $serie->addTag($tagObject);
             }
         }
+    }
+
+    public function getAllEpisodes(){
+        return $this->exec("SELECT * FROM episode",null,null);
+    }
+
+    public function getAllRealisateurs() {
+        return $this->exec("SELECT * FROM realisateur", null, null);
+    }
     
-        return $serie->getTags();
+    public function getSaisonEpisodes(Saison $saison) {
+        $episodes = $this->getAllEpisodes();
+        foreach ($episodes as $episode) {
+            if ($episode->id_saison == $saison->getId()) {
+                $saison->addEpisode(new Episode($episode->titre, $episode->synopsis, $episode->duree, $episode->id));
+            }
+        }
+    }
+
+    public function getEpisodeRealisateurs(Episode $episode) {
+        $realisateursData = $this->exec("SELECT * FROM episode_realisateur WHERE id_episode = ?", [$episode->getTitre()]);
+        $allRealisateurs = $this->getAllRealisateurs(); // Assuming we have a method that fetches all directors
+    
+        foreach ($realisateursData as $relation) {
+            foreach ($allRealisateurs as $realisateur) {
+                if ($relation->id_realisateur == $realisateur->id) {
+                    $episode->addRealisateur(new Realisateur($realisateur->nom, $realisateur->photo, $realisateur->id));
+                }
+            }
+        }
+    }
+    
+    
+    public function getAllSaisonActeurs(){
+        return $this->exec("SELECT * FROM TABLE saison_acteur",null,null);
+    }
+    public function createSaison($id, $numero, $affiche){
+        $saison = new Saison($id, $numero, $affiche);
+        $AllSaisonActeurs = $this->getAllSaisonActeurs();
+        $acteurSaison = [];
+        foreach ($AllSaisonActeurs as $acteur){
+            if ($acteur->id_saison == $saison->getId()) {
+                $acteurSaison[$acteur->id_acteur] = $acteur->id_acteur;
+            }
+        }
+
+        $allActeurs = $this->getAllActeur();
+        foreach($allActeurs as $acteur){
+            if (in_array($acteur->id, $acteurSaison)){
+                $saison->addActeur(new Acteur($acteur->nom, $acteur->photo, $acteur->id));
+            }
+        }
+        return $saison;
     }
     
     public function getSerieSaisons(Serie $serie){
-        return;
+        $saisons = $this->getSaisons();
+        foreach ($saisons as $saison){
+            if ($saison->id_serie == $serie->getId()) {
+                $serie->addSaison($this->createSaison($saison->id, $saison->numero, $saison->affiche)); 
+            }
+        }
     }
 
     public function createAllSeries(){
@@ -82,7 +139,16 @@ class SerieDB extends PdoWrapper {
     }
 
     public function deleteSerie($serie){
-        $serie = null;
+
+        unset($serie);
+    }
+
+    public function getSaisons() {
+        return $this->exec(
+            "SELECT * FROM TABLE saison",
+            null,
+            null,
+        );
     }
 
     public function getAllTags(){
@@ -102,6 +168,7 @@ class SerieDB extends PdoWrapper {
     }
 
     public function deleteTag($tag){
+
         unset($tag);
     }
 
@@ -110,15 +177,6 @@ class SerieDB extends PdoWrapper {
             "SELECT * FROM acteur",
             null,
             null);
-    }
-
-    public function createAllActeur() : array {
-        $toReturn = [];
-        $actors = $this->getAllActeur();
-        foreach($actors as $actor) {
-            $toReturn[$actor->nom] = new Acteur($actor->nom, $actor->photo);
-        }
-        return $toReturn;
     }
 
     public function deleteActeur($acteur) {
