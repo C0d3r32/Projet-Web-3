@@ -4,7 +4,7 @@ require_once(dirname(__FILE__, 1) . '/classes/pdo_wrapper/pdoWrapper.php');
 
 use pdo_wrapper\PdoWrapper;
 
-$pdoWrapper = new PdoWrapper("seriedb", "127.0.0.1", "3306", "root", "");
+$pdoWrapper = new PdoWrapper("nboubeza", "192.168.22.48", "3306", "nboubeza", "22072003");
 
 if ($pdoWrapper) {
     // connexion reussi
