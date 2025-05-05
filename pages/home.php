@@ -22,16 +22,6 @@ foreach ($data as $serie) {
 }
 $jsonData = json_encode($result);
 
-<<<<<<< HEAD
-=======
-$sdb = new sdb\SerieDB();
-$data = $sdb->getAllSeries();
-$data = [];//[$serie1->__TabToString(), $serie2->__TabToString()];
-$jsonData = json_encode($data);
-
-
-echo var_dump($sdb->getSeries());
->>>>>>> bc0eaeaee691ab8f44f564c88d5386ec8c582ffd
 ob_start();
 ?>
 
@@ -39,14 +29,10 @@ ob_start();
 <p>Retrouvez vos séries juste ici!</p></div>
 
 <main id="seriesContainer"><div id="serie-list"></div></main>
-<<<<<<< HEAD
 <script>
     const seriesData = <?= $jsonData; ?>
 </script>
 <script src="../js/showSeries.js"></script>
-=======
-
->>>>>>> bc0eaeaee691ab8f44f564c88d5386ec8c582ffd
 
 <?php 
 $content = ob_get_clean();
