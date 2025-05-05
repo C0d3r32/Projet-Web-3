@@ -6,11 +6,13 @@ class Serie {
     private array $tags;
     /** @var Saison[] */
     private array $saisons;
+    private $id;
 
     public function __construct(string $titre) {
         $this->titre = $titre;
         $this->tags = [];
         $this->saisons = [];
+        $this->id;
     }
 
     public function getTitre(): string {
@@ -22,9 +24,21 @@ class Serie {
     }
 
     public function addTag(Tag $tag): void {
+        foreach ($this->tags as $etag) {
+            if ($tag->getName() === $etag->getName()) {
+                return;
+            }
+        }
         $this->tags[] = $tag;
     }
 
+    public function setId($number) {
+        $this->id = $number;
+    }
+
+    public function getId() {
+        return $this->id;
+    }
     /**
      * @return Tag[]
      */
