@@ -6,6 +6,7 @@ use pdo_wrapper\PdoWrapper;
 
 $pdoWrapper = new PdoWrapper("nboubeza", "192.168.22.48", "3306", "nboubeza", "22072003");
 
+
 if ($pdoWrapper) {
     // connexion reussi
      // echo " yess sir " ;   
