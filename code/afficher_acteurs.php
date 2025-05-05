@@ -1,12 +1,8 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require_once(dirname(__FILE__, 1) . '/../DB_CREDENTIALS.php');
 
-require '../db_connection.php';
+$acteurs = $pdoWrapper->exec('SELECT nom, photo FROM acteur', [], null); 
 
-$stmt = $pdo->query('SELECT nom, photo FROM acteur');
-$acteurs = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -23,16 +19,16 @@ $acteurs = $stmt->fetchAll();
         <?php foreach ($acteurs as $acteur): ?>
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <img src="<?php echo htmlspecialchars($acteur['photo']); ?>" 
+                    <img src="<?php echo htmlspecialchars($acteur->photo); ?>" 
                          class="card-img-top" 
-                         alt="Affiche acteur <?php echo htmlspecialchars($acteur['nom']); ?>">
+                         alt="Affiche acteur <?php echo htmlspecialchars($acteur->nom); ?>">
                     <div class="card-body">
-                        <h5 class="card-title">Acteur <?php echo htmlspecialchars($acteur['nom']); ?></h5>
+                        <h5 class="card-title">Acteur <?php echo htmlspecialchars($acteur->nom); ?></h5>
                     </div>
                 </div>
             </div>
         <?php endforeach; ?>
     </div>
 </div>
-        </body>
-        </html>
+</body>
+</html>

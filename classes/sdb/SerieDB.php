@@ -131,10 +131,11 @@ class SerieDB extends PdoWrapper {
         return $toReturn;
     }
 
-    public function deleteSerie($serie){
-
+    public function deleteSerie($serie) {
+        $this->exec("DELETE FROM serie WHERE id = ?", [$serie->getId()]);
         unset($serie);
     }
+    
 
     public function getSaisons() {
         return $this->exec(
@@ -161,8 +162,10 @@ class SerieDB extends PdoWrapper {
     }
 
     public function deleteTag($tag){
+
         unset($tag);
     }
+    
 
     public function getAllActeur(){
         return $this->exec(
@@ -172,6 +175,7 @@ class SerieDB extends PdoWrapper {
     }
 
     public function deleteActeur($acteur) {
+        $this->exec("DELETE FROM acteur WHERE id = ?", [$acteur->getId()]);
         unset($acteur);
     }
 }

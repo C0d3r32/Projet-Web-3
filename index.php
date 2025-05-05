@@ -1,2 +1,2 @@
-<?php header("Location: pages/home.php") ;
+<?php header("Location: code/afficher_acteurs.php") ;
 exit() ;
