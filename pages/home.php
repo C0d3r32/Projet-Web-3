@@ -11,9 +11,8 @@ require_once "../config.php";
 require ".." . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'autoLoader.php';
 Autoloader::register(); 
 
-$test = new SerieDB();
 
-$sdb = new \sdb\SerieDB();
+$sdb = new sdb\SerieDB();
 $data = $sdb->getAllSeries();
 // $tagDrame = new entities\Tag("drame");
 // $tags1 = [new entities\Tag("fantaisie"), $tagDrame];
@@ -54,7 +53,8 @@ $data = [];//[$serie1->__TabToString(), $serie2->__TabToString()];
 $jsonData = json_encode($data);
 
 
-echo var_dump($test->createAllSeries());
+echo var_dump($sdb->getSeries());
+$sdb->createSerie("Le truc", 3);
 ob_start();
 ?>
 
