@@ -6,6 +6,7 @@ use pdo_wrapper\PdoWrapper;
 
 $pdoWrapper = new PdoWrapper("seriedb", "127.0.0.1", "3306", "root", "");
 
+
 if ($pdoWrapper) {
     // connexion reussi
      // echo " yess sir " ;   

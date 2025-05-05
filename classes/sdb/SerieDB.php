@@ -29,6 +29,9 @@ class SerieDB extends PdoWrapper {
             null,
             null);
     }
+
+
+    // creation d'une serie
     public function createSerie($titre, $id, $saisons=null, $tags=null){
         $query = 'INSERT INTO serie(id,titre) VALUES (:id,:titre)';
         $param = [
@@ -37,6 +40,60 @@ class SerieDB extends PdoWrapper {
         ];
         return $this->exec($query,$param,null);
     }
+    // creation d'un acteur 
+    public function createActeur($id, $nom, $photo){
+        $query = 'INSERT INTO acteur(id,nom,photo) VALUES (:id,:nom,:photo)';
+        $param = [
+            'id' => $id,
+            'nom'=> $nom,
+            'photo' =>$photo
+        ];
+        return $this->exec($query,$param,null);
+    }
+    // creation d'un realisateur 
+    public function createRealisateur($id, $nom, $photo){
+        $query = 'INSERT INTO realisateur(id,nom,photo) VALUES (:id,:nom,:photo)';
+        $param = [
+            'id' => $id,
+            'nom'=> $nom,
+            'photo' =>$photo
+        ];
+        return $this->exec($query,$param,null);
+    }
+    // creation d'une saison 
+    public function createSaison($id, $numero, $affiche ,$id_serie){
+        $query = 'INSERT INTO saison(id,numero,affiche,id_serie) VALUES (:id,:numero,:affiche,:id_serie)';
+        $param = [
+            'id' => $id,
+            'numero'=> $numero,
+            'affiche' =>$affiche,
+            'id_serie' =>$id_serie
+        ];
+        return $this->exec($query,$param,null);
+    }
+    // creation d'un episode 
+    public function createEpisode($id, $numero, $titre ,$synopsis ,$duree ,$id_saison){
+        $query = 'INSERT INTO episode(id, numero, titre ,synopsis ,duree ,id_saison) VALUES (:id,:numero,:titre ,:synopsis ,:duree ,:id_saison)';
+        $param = [
+            'id' => $id,
+            'numero'=> $numero,
+            'titre' =>$titre,
+            'synopsis' =>$synopsis,
+            'duree' => $duree,
+            'id_saison' =>$id_saison
+        ];
+        return $this->exec($query,$param,null);
+    }
+    // creation d'un tag
+    public function createTag($id, $nom){
+        $query = 'INSERT INTO tag(id,nom) VALUES (:id,:nom)';
+        $param = [
+            'id' => $id,
+            'nom'=> $nom
+        ];
+        return $this->exec($query,$param,null);
+    }
+
 
     public function getSerieTags(Serie $serie) {
         $seriesTags = $this->getAllSeriesTags(); 
@@ -74,7 +131,7 @@ class SerieDB extends PdoWrapper {
     }
 
     public function getEpisodeRealisateurs(Episode $episode) {
-        $realisateursData = $this->exec("SELECT * FROM episode_realisateur WHERE id_episode = ?", [$episode->getTitre()]);
+        $realisateursData = $this->exec("SELECT * FROM episode_realisateur WHERE id_episode = ?", [$episode->getId()]); 
         $allRealisateurs = $this->getAllRealisateurs();
     
         foreach ($realisateursData as $relation) {
@@ -141,7 +198,7 @@ class SerieDB extends PdoWrapper {
         return $this->exec(
             "SELECT * FROM saison",
             null,
-            null,
+            null
         );
     }
 
@@ -162,7 +219,7 @@ class SerieDB extends PdoWrapper {
     }
 
     public function deleteTag($tag){
-
+        $this->exec("DELETE FROM tag WHERE id = ?", [$tag->getId()]);
         unset($tag);
     }
     
@@ -178,4 +235,21 @@ class SerieDB extends PdoWrapper {
         $this->exec("DELETE FROM acteur WHERE id = ?", [$acteur->getId()]);
         unset($acteur);
     }
+
+    // delete realisateur 
+    public function deleteRealisateur($realisateur) {
+        $this->exec("DELETE FROM realisateur WHERE id = ?", [$realisateur->getId()]);
+        unset($realisateur);
+    }
+    // delete episode 
+    public function deleteEpisode($episode) {
+        $this->exec("DELETE FROM episode WHERE id = ?", [$episode->getId()]);
+        unset($episode);
+    }
+    // delete saison
+    public function deleteSaison($saison) {
+        $this->exec("DELETE FROM saison WHERE id = ?", [$saison->getId()]);
+        unset($saison);
+    }
+
 }
