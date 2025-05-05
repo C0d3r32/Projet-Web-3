@@ -1,8 +1,8 @@
 <?php
-require '../db_connection.php';
+require_once(dirname(__FILE__, 1) . '/../DB_CREDENTIALS.php');
 
-$stmt = $pdo->query('SELECT numero, affiche FROM saison');
-$saisons = $stmt->fetchAll();
+$saisons = $pdoWrapper->exec('SELECT numero, affiche FROM saison', [], null); 
+
 ?>
 
 <!DOCTYPE html>
@@ -19,11 +19,11 @@ $saisons = $stmt->fetchAll();
         <?php foreach ($saisons as $saison): ?>
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <img src="<?php echo htmlspecialchars($saison['affiche']); ?>" 
+                    <img src="<?php echo htmlspecialchars($saison->affiche); ?>" 
                          class="card-img-top" 
-                         alt="Affiche saison <?php echo htmlspecialchars($saison['numero']); ?>">
+                         alt="Affiche saison <?php echo htmlspecialchars($saison->numero); ?>">
                     <div class="card-body">
-                        <h5 class="card-title">Saison <?php echo htmlspecialchars($saison['numero']); ?></h5>
+                        <h5 class="card-title">Saison <?php echo htmlspecialchars($saison->numero); ?></h5>
                     </div>
                 </div>
             </div>

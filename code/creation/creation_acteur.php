@@ -1,8 +1,9 @@
 <?php
 
+require_once(dirname(__FILE__, 2) . '/../DB_CREDENTIALS.php');
+require_once(dirname(__FILE__, 3) . '/classes/entities/acteur.php');
+
 use entities\Acteur;
-require '../../../db_connection.php';
-require '../../classes/entities/personne.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nom = $_POST['nom'];
@@ -11,10 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($nom) || empty($photo)) {
         echo "Remplis tous les champs.";
     } else {
-        $stmt = $pdo->prepare("INSERT INTO acteur (nom, photo) VALUES (:nom, :photo)");
-        $stmt->execute(['nom' => $nom, 'photo' => $photo]);
+
+        $pdoWrapper->exec(
+            "INSERT INTO acteur (nom, photo) VALUES (:nom, :photo)",
+            ['nom' => $nom, 'photo' => $photo]
+        );
+
         $personne = new Acteur($nom,$photo);
-        echo var_dump($personne);
         echo "Acteur ajouté.";
     }
 }
