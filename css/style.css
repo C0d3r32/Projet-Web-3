@@ -66,14 +66,6 @@ nav ul a {
   margin-right: 10px;
 }
 
-#main-content {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 input[type="text"], input[type="password"] {
   margin-top: 10px;
   padding: 10px;
@@ -84,11 +76,11 @@ input[type="text"], input[type="password"] {
 }
 
 #seriesContainer {
+  flex: 1; 
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   padding: 20px;
-  justify-content: center;
 }
 
 .serie-card {
@@ -131,6 +123,11 @@ input[type="text"], input[type="password"] {
   font-size: 2em;
   color: rgb(0, 0, 0);
   text-align: center;
+}
+.content-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
 }
 
 #tagSidebar {

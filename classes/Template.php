@@ -18,7 +18,7 @@ class Template
         <body>
             <?php include "header.php" ?>
 
-            <div id="content">
+            <div class="content">
                 <?php echo $content ?>
             </div>
 

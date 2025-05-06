@@ -38,13 +38,15 @@ ob_start();
     <p>Retrouvez toutes vos séries juste ici!</p>
 </div>
 
-<div id="tagSidebar">
-    <h3>Filtres</h3>
-</div>
+<div class="content-container">
+    <div id="tagSidebar">
+        <h3>Filtres</h3>
+    </div>
 
-<main id="seriesContainer">
-    <div id="serie-list"></div>
-</main>
+    <main id="seriesContainer">
+        <div id="serie-list"></div>
+    </main>
+</div>
 
 <script>
     const seriesData = <?= $jsonData; ?>;
