@@ -13,18 +13,34 @@ require ".." . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'autoLoad
 Autoloader::register(); 
 
 $sdb = new SerieDB();
-$data = $sdb->getAllSeries(); 
+$titre = $_GET['titre'] ?? null;
 
-var_dump($data); 
+if ($titre) {
+    $allSeries = $sdb->getSeries(); 
+    $serie = null;
 
-$jsonData = json_encode($data);
+    foreach ($allSeries as $s) {
+        if ($s->getTitre() === $titre) {
+            $serie = $s;
+            break; 
+        }
+    }
+
+    if (!$serie) {
+        echo "Serie not found.";
+        exit;
+    }
+} else {
+    echo "No series specified.";
+    exit;
+}
 
 ob_start();
 ?>
 
 <main id="seriesContainer">
     <div id="serie-list">
-        <?= SerieRenderer::renderSeries($sdb); ?>
+        <?= SerieRenderer::renderSerie($serie);?>
     </div>
 </main>
 
