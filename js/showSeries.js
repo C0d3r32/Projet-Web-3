@@ -40,8 +40,9 @@ function afficherSeries(liste) {
     }
     liste.forEach(serie => {
         const div = document.createElement("div");
-        div.className = "serie-card";
+        div.className = "card";
         div.innerHTML = `
+            <img src="${serie.affiche}" alt="Affiche de ${serie.titre}" class="card-img-top">
             <h2>${serie.titre}</h2>
             <p><strong>Tags:</strong> ${serie.tags.join(", ")}</p>
             <p><strong>Saisons:</strong> ${serie.saisons}</p>

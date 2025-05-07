@@ -15,12 +15,23 @@ Autoloader::register();
 $sdb = new SerieDB();
 $data = $sdb->getSeries();
 $result = []; 
+
+$tempaffiches = [
+    'Severance'=> '../css/images/severance.jpg',
+    'Game of Thrones'=> '../css/images/game-of-thrones.jpg'
+];
+
 foreach ($data as $serie) {
     $serieArray = $serie->__TabToString(); 
     $serieArray['id'] = $serie->getId();
+    $saisons = $sdb->getSaisonsBySerieId($serie->getId());
+    $tempaffiche = isset($tempaffiches[$serie->getTitre()]) ? $tempaffiches[$serie->getTitre()]: $saisons[0]->affiche; // affiche temporaire ou bien l'image par défaut
+    $affiche = isset($tempaffiche) ? $tempaffiche : "../css/images/default.jpg";  
+    $serieArray['affiche'] = $affiche;
     $serieString = json_encode($serieArray); 
     $result[$serieArray['titre']] = $serieString; 
 }
+
 $jsonData = json_encode($result);
 
 $allTags = $sdb->getAllTags();

@@ -9,8 +9,6 @@ use entities\Saison;
 use entities\Episode;
 use \pdo_wrapper\pdoWrapper ;
 
-include __DIR__ . "../../../DB_CREDENTIALS.php";
-
 class SerieDB extends PdoWrapper {
     public const UPLOAD_DIR = "uploads/";
 
@@ -392,4 +390,25 @@ class SerieDB extends PdoWrapper {
         unset($saison);
     }
 
+    
+    public function getEpisodesBySaison($id_saison) {
+        $query = "SELECT * FROM episode WHERE id_saison = ?";
+        $params = [$id_saison];
+        $episodesData = $this->exec($query, $params, null);
+    
+        $episodes = [];
+        foreach ($episodesData as $episode) {
+            $episodes[] = new Episode($episode->titre, $episode->synopsis, $episode->duree, $episode->id);
+        }
+    
+        return $episodes;
+    }
+    
+    
+
+    
+
+
+   
+    
 }

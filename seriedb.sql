@@ -273,7 +273,7 @@ CREATE TABLE `saison` (
 --
 
 INSERT INTO `saison` (`id`, `numero`, `affiche`, `id_serie`) VALUES
-(27, 1, 'https://fr.web.img4.acsta.net/pictures/21/12/16/17/19/2294099.jpg', 4),
+(27, 1, 'https://m.media-amazon.com/images/I/713HILcikjL._AC_SL1500_.jpg', 4),
 (28, 2, 'https://fr.web.img3.acsta.net/img/f3/61/f361e09d400dc55b194a7a58c00556c1.jpg', 4),
 (34, 1, 'https://m.media-amazon.com/images/I/81Hz0Wus+jL._AC_UF1000,1000_QL80_.jpg', 7),
 (35, 2, 'https://m.media-amazon.com/images/I/81FGxNcoJoL._AC_UF1000,1000_QL80_.jpg', 7),

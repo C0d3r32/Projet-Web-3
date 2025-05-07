@@ -23,17 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <img src="${acteur.photo}" alt="Photo de ${acteur.nom}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px 10px 0 0;">
                 <h3 style="margin: 10px 0; font-size: 1.2rem; color: #222;">${acteur.nom}</h3>
             `;
-            card.style.border = "1px solid #ddd";
-            card.style.borderRadius = "10px";
-            card.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
-            card.style.padding = "15px";
-            card.style.margin = "10px";
-            card.style.textAlign = "center";
-            card.style.backgroundColor = "#fff";
-            card.style.cursor = "default";
-            card.style.display = "inline-block";
-            card.style.verticalAlign = "top";
-            card.style.width = "200px";
+           
             container.appendChild(card);
         });
     }
