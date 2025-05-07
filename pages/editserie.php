@@ -11,7 +11,6 @@ require_once "../config.php";
 require ".." . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'autoLoader.php';
 Autoloader::register();
 
-//Si il n'est pas connecté sur un compte admin on le redirige vers la page pour se login
 if (!isset($_SESSION['nick'])) {
     header("Location: login.php");
     exit;
@@ -64,8 +63,7 @@ ob_start();
     <style>
         body {
             font-family: Lexend, sans-serif;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background: #f8f7f7;
         }
         .section {
@@ -75,12 +73,15 @@ ob_start();
             border-radius: 8px;
         }
         img.season-poster {
-            max-width: 100%; 
-            height: 200px; 
-            object-fit: cover; 
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
             border-radius: 4px;
             margin-bottom: 10px;
             display: block;
+        }
+        .btn-danger {
+            margin-top: 4px;
         }
     </style>
 </head>
@@ -118,6 +119,8 @@ ob_start();
                     <label for="season_affiche_<?= $index ?>">URL de l'affiche :</label>
                     <input type="text" id="season_affiche_<?= $index ?>" name="season_affiche[]" value="<?= htmlspecialchars($saison['affiche']) ?>" class="form-control" placeholder="Entrez l'URL de l'affiche">
 
+                    <button type="button" class="btn btn-danger btn-sm delete-season-btn">Supprimer cette saison</button>
+
                     <h3 class="mt-3">Épisodes</h3>
 
                     <?php foreach ($saison['episodes'] as $epIndex => $episode): ?>
@@ -135,15 +138,18 @@ ob_start();
 
                             <label for="duration_<?= $index . '_' . $epIndex ?>">Durée :</label>
                             <input type="text" id="duration_<?= $index . '_' . $epIndex ?>" name="duration[<?= $index ?>][]" value="<?= htmlspecialchars($episode['duree']) ?>" required class="form-control">
+
+                            <button type="button" class="btn btn-danger btn-sm delete-episode-btn mt-2">Supprimer cet épisode</button>
                         </div>
                     <?php endforeach; ?>
-
                 </div>
             <?php endforeach; ?>
 
-            <button type="button" id="add-season-btn" class="btn btn-success mb-4">Ajouter une saison</button>
-
+            <button type="button" id="add-season-btn" class="btn btn-success mb-4 mt-3">Ajouter une saison</button>
         </div>
+
+        <input type="hidden" id="season_id_to_delete" name="season_id_to_delete" value="">
+        <input type="hidden" id="episode_id_to_delete" name="episode_id_to_delete" value="">
 
         <button type="submit" class="btn btn-primary mt-3">Mettre à jour la série</button>
     </form>
@@ -158,6 +164,8 @@ ob_start();
 
     <label>URL de l'affiche :</label>
     <input type="text" name="season_affiche[]" class="form-control mb-3" placeholder="Entrez l'URL de l'affiche">
+
+    <button type="button" class="btn btn-danger btn-sm delete-season-btn mb-3">Supprimer cette saison</button>
 
     <h3>Épisodes</h3>
     <div class="episodes-container"></div>
@@ -181,6 +189,8 @@ ob_start();
 
     <label>Durée :</label>
     <input type="text" name="duration[new][]" required class="form-control">
+
+    <button type="button" class="btn btn-danger btn-sm delete-episode-btn mt-2">Supprimer cet épisode</button>
   </div>
 </template>
 
@@ -191,6 +201,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const seasonTemplate = document.getElementById('season-template').content;
   const episodeTemplate = document.getElementById('episode-template').content;
 
+  let seasonIdsToDelete = [];
+  let episodeIdsToDelete = [];
+
+  function updateDeleteInputs() {
+    document.getElementById('season_id_to_delete').value = seasonIdsToDelete.join(',');
+    document.getElementById('episode_id_to_delete').value = episodeIdsToDelete.join(',');
+  }
+
   addSeasonBtn.addEventListener('click', () => {
     const newSeason = document.importNode(seasonTemplate, true);
 
@@ -199,25 +217,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addEpisodeBtn.addEventListener('click', () => {
       const newEpisode = document.importNode(episodeTemplate, true);
+      attachEpisodeDeleteHandler(newEpisode);
       episodesContainer.appendChild(newEpisode);
     });
+
+    attachSeasonDeleteHandler(newSeason);
 
     seasonsContainer.appendChild(newSeason);
   });
 
   document.querySelectorAll('.season').forEach(season => {
+    attachSeasonDeleteHandler(season);
     const addEpisodeBtn = season.querySelector('.add-episode-btn');
     if (addEpisodeBtn) {
       const episodesContainer = season.querySelector('.episodes-container');
       addEpisodeBtn.addEventListener('click', () => {
         const newEpisode = document.importNode(episodeTemplate, true);
+        attachEpisodeDeleteHandler(newEpisode);
         episodesContainer.appendChild(newEpisode);
       });
     }
+    season.querySelectorAll('.episode').forEach(episode => {
+      attachEpisodeDeleteHandler(episode);
+    });
   });
+
+  function attachSeasonDeleteHandler(seasonElement) {
+    const deleteButton = seasonElement.querySelector('.delete-season-btn');
+    deleteButton.addEventListener('click', () => {
+      if (confirm('Voulez-vous vraiment supprimer cette saison ?')) {
+        const seasonIdInput = seasonElement.querySelector('input[name="season_id[]"]');
+        if(seasonIdInput && seasonIdInput.value !== 'new') {
+          seasonIdsToDelete.push(seasonIdInput.value);
+          updateDeleteInputs();
+        }
+        seasonElement.remove();
+      }
+    });
+  }
+
+  function attachEpisodeDeleteHandler(episodeElement) {
+    const deleteButton = episodeElement.querySelector('.delete-episode-btn');
+    deleteButton.addEventListener('click', () => {
+      if (confirm('Voulez-vous vraiment supprimer cet épisode ?')) {
+        const episodeIdInput = episodeElement.querySelector('input[name^="episode_id"]');
+        if(episodeIdInput && episodeIdInput.value !== 'new') {
+          episodeIdsToDelete.push(episodeIdInput.value);
+          updateDeleteInputs();
+        }
+        episodeElement.remove();
+      }
+    });
+  }
 });
 </script>
 
 <?php
 $content = ob_get_clean();
 Template::render($content);
+?>

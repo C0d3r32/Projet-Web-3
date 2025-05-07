@@ -169,6 +169,12 @@ input[type="password"] {
   font-size: 1.2em;
   margin: 0;
 }
+
+.card-details {
+  font-size: 1em;
+  margin: 0;
+}
+
 .acteur-card{
   border: 1px solid #ddd;
   border-radius: 10px;

@@ -159,6 +159,13 @@ class SerieDB extends PdoWrapper {
                 $saison->addActeur(new Acteur($acteur->nom, $acteur->photo, $acteur->id));
             }
         }
+
+        $episodes = $this->getEpisodesBySaison($id);
+        foreach($episodes as $episode){
+            $this->getEpisodeRealisateurs($episode);
+            $saison->addEpisode($episode);
+        }
+
         return $saison;
     }
     
@@ -207,32 +214,30 @@ class SerieDB extends PdoWrapper {
     }
     
     public function insertSaison($numero, $affiche, $id_serie) {
-        $newId = uniqid();
-        $query = 'INSERT INTO saison(id, numero, affiche, id_serie) VALUES (:id, :numero, :affiche, :id_serie)';
+        $query = 'INSERT INTO saison(numero, affiche, id_serie) VALUES (:numero, :affiche, :id_serie)';
         $param = [
-            'id' => $newId,
             'numero' => $numero,
             'affiche' => $affiche,
             'id_serie' => $id_serie
         ];
         $this->exec($query, $param, null);
-        return $newId;
+        return $this->lastInsertId();
     }
     
     public function insertEpisode($numero, $titre, $synopsis, $duree, $id_saison) {
-        $newId = uniqid();
-        $query = 'INSERT INTO episode(id, numero, titre, synopsis, duree, id_saison) VALUES (:id, :numero, :titre, :synopsis, :duree, :id_saison)';
+        $query = 'INSERT INTO episode(numero, titre, synopsis, duree, id_saison) VALUES (:numero, :titre, :synopsis, :duree, :id_saison)';
         $param = [
-            'id' => $newId,
             'numero' => $numero,
-            'titre' => $titre,
+            'titre' => json_encode($titre),
             'synopsis' => $synopsis,
             'duree' => $duree,
             'id_saison' => $id_saison
         ];
         $this->exec($query, $param, null);
-        return $newId;
+        return $this->lastInsertId();
+
     }
+    
     public function deleteSerie($serie) {
         $id = $serie->getId();
         if (!$id) {
@@ -395,7 +400,7 @@ class SerieDB extends PdoWrapper {
         $query = "SELECT * FROM episode WHERE id_saison = ?";
         $params = [$id_saison];
         $episodesData = $this->exec($query, $params, null);
-    
+        $allReal = $this->getAllRealisateurs();
         $episodes = [];
         foreach ($episodesData as $episode) {
             $episodes[] = new Episode($episode->titre, $episode->synopsis, $episode->duree, $episode->id);
@@ -403,12 +408,4 @@ class SerieDB extends PdoWrapper {
     
         return $episodes;
     }
-    
-    
-
-    
-
-
-   
-    
 }

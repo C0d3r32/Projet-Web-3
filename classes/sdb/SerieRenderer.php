@@ -21,6 +21,7 @@ class SerieRenderer {
             <div class="row">
                 <?php foreach ($serie->getSaisons() as $saison): ?>
                     <div class="col-md-4 mb-4">
+                    <a href="saison.php?saison_id=<?= htmlspecialchars($saison->getId()); ?>" class="card-link">
                         <div class="card">
                             <img src="<?= htmlspecialchars($saison->getAffiche()); ?>" 
                                 class="card-img-top" 
@@ -30,6 +31,7 @@ class SerieRenderer {
                                 <h5 class="card-title">Saison <?= htmlspecialchars($saison->getNumero()); ?></h5>
                             </div>
                         </div>
+                    </a>
                     </div>
                 <?php endforeach; ?>
             </div>

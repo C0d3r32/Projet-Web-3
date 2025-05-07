@@ -42,9 +42,7 @@ class PdoWrapper
         return $data ;
     }
 
-     // ohh
-     public function getPDO() {
-        return $this->pdo;
+    public function lastInsertId() {
+        return $this->pdo->lastInsertId();
     }
-
 }
